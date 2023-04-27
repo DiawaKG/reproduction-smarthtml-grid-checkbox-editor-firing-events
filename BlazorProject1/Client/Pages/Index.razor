@@ -1,0 +1,57 @@
+﻿@page "/"
+
+@using Smart.Blazor
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+@*<Button OnClick="@Clicked">Click Me</Button>*@
+
+
+<Grid @ref="grid" DataSource="@data" Filtering="@GridFiltering" Editing="GridEditing" Selection="GridSelection"
+      OnEndEdit="EndEdit" OnBeginEdit="BeginEdit">
+  <Columns>
+    <Column DataField="Id" Visible="false" AllowEdit="false" />
+    <Column DataField="Name" Label="Name" AllowEdit="true" />
+    <Column DataField="BoolValue " Label="BoolValue" AllowEdit="true" DataType="boolean" Editor="@checkBoxEditor" Template="@checkBoxEditor" />
+  </Columns>
+</Grid>
+
+<p>@shownNumber</p>
+
+
+@code
+{
+  Grid grid;
+  GridFiltering GridFiltering = new() { Enabled = true };
+  GridSelection GridSelection = new() { Enabled = true, Mode = GridSelectionMode.Extended, AllowCellSelection = true, AllowRowSelection = true };
+  string checkBoxEditor = "checkBox";
+  GridEditing GridEditing = new GridEditing() { Enabled = true };
+  string shownNumber = "";
+
+
+  List<ClassName> data = new List<ClassName>() {
+    new ClassName() { Id = Guid.NewGuid(), BoolValue = false, Name = "test1", DisplayName ="abcd"},
+    new ClassName() { Id = Guid.NewGuid(), BoolValue = false, Name = "test2" , DisplayName ="abcd" },
+    new ClassName() { Id = Guid.NewGuid(), BoolValue = false, Name = "test3" , DisplayName ="abcd"},
+    new ClassName() { Id = Guid.NewGuid(), BoolValue = false, Name = "test4" , DisplayName ="abcd"},
+    new ClassName() { Id = Guid.NewGuid(), BoolValue = true, Name = "test5" , DisplayName ="abcd"},
+    new ClassName() { Id = Guid.NewGuid(), BoolValue = true, Name = "test6" , DisplayName ="abcd"},
+    new ClassName() { Id = Guid.NewGuid(), BoolValue = true, Name = "test7" , DisplayName ="abcd"} };
+
+
+  public async void BeginEdit()
+  {
+    shownNumber = shownNumber + "BeginEdit ";
+  }
+
+  public async void EndEdit()
+  {
+    shownNumber = shownNumber + "EndEdit ";
+  }
+}
